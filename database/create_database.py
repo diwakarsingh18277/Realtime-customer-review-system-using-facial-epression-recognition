@@ -8,7 +8,7 @@ cursor.execute(''' create table customer
         (Id BLOB primary key not null,
         Name text,
         Entry_time text,
-        Entry_happiness real,
+        Entry_happiness integer,
         Exit_happiness real,
         Exit_time text);''')
 cursor.close()
