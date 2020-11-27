@@ -117,33 +117,16 @@ while(True):
                 img_pixels = np.expand_dims(img_pixels, axis = 0)
                 img_pixels /= 255 #pixels are in scale of [0, 255]. normalize all pixels in scale of [0, 1]
                 predictions = model.predict(img_pixels) #store probabilities of 7 expressions
-                #find max indexed array 0: angry, 1:disgust, 2:fear, 3:happy, 4:sad, 5:surprise, 6:neutral
+                #find max indexed array 0: angry, 1:disgust, 2:fear, 3:happy, 4:sad, 5:surprise, 6:neutral 
                 max_index = np.argmax(predictions[0])
                 emotion = emotions[max_index]
                 val = predictions[0][3]
                 # print(val)
                 data = marshal.dumps(face_encoding)
                 # print(data)
-                val=int(val*100000)
-                print(type(val))
                 cursor.execute('''insert into customer (Id,Entry_happiness) values (?,?)''',(data,val))
-                conn.commit()   
                 # print(emotion)
- 
-            else:
-                
-                idx = get_unique_id(match,known_face_encodings)
-                unique_id = known_face_encodings[idx]
-                data = marshal.dumps(unique_id)
-                statement='''select cast(Entry_happiness as real) from customer where Id = ?''';
-                cursor.execute(statement,(data,))
-                records=cursor.fetchone()
-                # print('raj')
-                print(type(records[0]))
-                print(records[0])
-
-
-
+		
         img_pixels = image.img_to_array(detected_face)
         img_pixels = np.expand_dims(img_pixels, axis = 0)
         img_pixels /= 255 #pixels are in scale of [0, 255]. normalize all pixels in scale of [0, 1]
